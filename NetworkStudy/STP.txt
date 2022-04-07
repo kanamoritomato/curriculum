@@ -1,0 +1,52 @@
+問１
+
+答え　Switch3
+
+ブリッジプライオリティの値が一番小さいため。
+
+
+
+問２
+Switch1
+F0/1　指定ポート
+F0/2　ルートポート
+Switch2
+F0/1　ルートポート
+F0/2　ブロッキングポート
+Switch3
+F0/1　指定ポート
+F0/2　指定ポート
+Switch4
+F0/1　指定ポート
+F0/2　ルートポート
+
+まず初めにルートポートの選出
+
+Switch1とSwitch2間がFastEthernetnのためショートパスコストが19
+Switch1とSwitch3間がEthernetのためショートパスコストが100
+Switch2とSwitch4間がEthernetのためショートパスコストが100
+Switch3とSwitch4間がEthernetのためショートパスコストが100
+
+ルートブリッジからそれぞれのポートへのルートパスコストを計算
+
+Switch1,F0/1　100+100+19=219
+Switch1,F0/2　100
+Switch2,F0/1　100+19=119
+Switch2,F0/2　100+100=200
+Switch4,E0/1　100+19+100=219
+Switch4,E0/2　100
+
+よって
+Switch1,F0/2
+Switch2,F0/1
+Switch4,E0/2
+がルートポート
+
+次に指定ポートの選出
+
+ルートポートの向かいにあるSwitch1のF0/1とSwitch3のE0/1とE0/2が指定ポート
+各コリジョンドメインに一つのポートが指定ポートになるため
+Switch2とSwitch4間でひとつ選出する
+Switch2とSwitch4のブリッジIDを比べSwitch4の方が小さいのでSwitch4のE0/1が指定ポート
+
+最後にあまったSwitch2のF0/2がブロッキングポートになる。
